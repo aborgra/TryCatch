@@ -38,7 +38,11 @@ namespace TryCatch {
             addressBook.AddContact (juan);
 
             // Try to addd a contact a second time
-            addressBook.AddContact (sue);
+            try {
+                addressBook.AddContact (sue);
+            } catch {
+                Console.WriteLine ("User already added");
+            }
 
             // Create a list of emails that match our Contacts
             List<string> emails = new List<string> () {
@@ -48,15 +52,28 @@ namespace TryCatch {
             };
 
             // Insert an email that does NOT match a Contact
-            emails.Insert (1, "not.in.addressbook@email.com");
+            try {
+                emails.Insert (1, "not.in.addressbook@email.com");
+
+            } catch {
+
+                Console.WriteLine ("No contact with that email found");
+            }
 
             //  Search the AddressBook by email and print the information about each Contact
+
             foreach (string email in emails) {
-                Contact contact = addressBook.GetByEmail (email);
-                Console.WriteLine ("----------------------------");
-                Console.WriteLine ($"Name: {contact.FullName}");
-                Console.WriteLine ($"Email: {contact.Email}");
-                Console.WriteLine ($"Address: {contact.Address}");
+                try {
+                    var contact = addressBook.GetByEmail (email);
+                    Console.WriteLine ("----------------------------");
+                    Console.WriteLine ($"Name: {contact.FullName}");
+                    Console.WriteLine ($"Email: {contact.Email}");
+                    Console.WriteLine ($"Address: {contact.Address}");
+                } catch {
+
+                    Console.WriteLine ("Email not found");
+                }
+
             }
         }
     }
